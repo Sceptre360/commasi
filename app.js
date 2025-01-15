@@ -1,24 +1,42 @@
 // DOM Elements
-const loginLink = document.getElementById('loginLink');
-const registerLink = document.getElementById('registerLink');
-const logoutLink = document.getElementById('logoutLink');
+const openLoginModal = document.getElementById('openLoginModal');
+const openRegisterModal = document.getElementById('openRegisterModal');
+const closeLoginModal = document.getElementById('closeLoginModal');
+const closeRegisterModal = document.getElementById('closeRegisterModal');
+const loginModal = document.getElementById('loginModal');
+const registerModal = document.getElementById('registerModal');
 const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
-const loginSection = document.getElementById('login');
-const registerSection = document.getElementById('register');
+const logoutLink = document.getElementById('logoutLink');
 
-// Show Login Form
-loginLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  loginSection.style.display = 'block';
-  registerSection.style.display = 'none';
+// Open Login Modal
+openLoginModal.addEventListener('click', () => {
+  loginModal.style.display = 'flex';
 });
 
-// Show Register Form
-registerLink.addEventListener('click', (e) => {
-  e.preventDefault();
-  registerSection.style.display = 'block';
-  loginSection.style.display = 'none';
+// Open Register Modal
+openRegisterModal.addEventListener('click', () => {
+  registerModal.style.display = 'flex';
+});
+
+// Close Login Modal
+closeLoginModal.addEventListener('click', () => {
+  loginModal.style.display = 'none';
+});
+
+// Close Register Modal
+closeRegisterModal.addEventListener('click', () => {
+  registerModal.style.display = 'none';
+});
+
+// Close Modals When Clicking Outside
+window.addEventListener('click', (e) => {
+  if (e.target === loginModal) {
+    loginModal.style.display = 'none';
+  }
+  if (e.target === registerModal) {
+    registerModal.style.display = 'none';
+  }
 });
 
 // Login Functionality
@@ -28,10 +46,10 @@ loginForm.addEventListener('submit', (e) => {
   const password = document.getElementById('loginPassword').value;
   // Simulate login (replace with actual authentication logic)
   alert(`Logged in as ${email}`);
-  loginSection.style.display = 'none';
+  loginModal.style.display = 'none';
   logoutLink.style.display = 'block';
-  loginLink.style.display = 'none';
-  registerLink.style.display = 'none';
+  openLoginModal.style.display = 'none';
+  openRegisterModal.style.display = 'none';
 });
 
 // Register Functionality
@@ -42,8 +60,8 @@ registerForm.addEventListener('submit', (e) => {
   const password = document.getElementById('registerPassword').value;
   // Simulate registration (replace with actual registration logic)
   alert(`Registered as ${name}`);
-  registerSection.style.display = 'none';
-  loginSection.style.display = 'block';
+  registerModal.style.display = 'none';
+  loginModal.style.display = 'flex';
 });
 
 // Logout Functionality
@@ -52,6 +70,6 @@ logoutLink.addEventListener('click', (e) => {
   // Simulate logout
   alert('Logged out');
   logoutLink.style.display = 'none';
-  loginLink.style.display = 'block';
-  registerLink.style.display = 'block';
+  openLoginModal.style.display = 'block';
+  openRegisterModal.style.display = 'block';
 });
