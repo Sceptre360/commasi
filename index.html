@@ -13,9 +13,9 @@
       <ul>
         <li><a href="#home">Home</a></li>
         <li><a href="#categories">Categories</a></li>
-        <li><a href="#login" id="loginLink">Login</a></li>
-        <li><a href="#register" id="registerLink">Register</a></li>
-        <li><a href="#" id="logoutLink" style="display:none;">Logout</a></li>
+        <li><button id="openLoginModal" class="shiny-button">Login</button></li>
+        <li><button id="openRegisterModal" class="shiny-button">Register</button></li>
+        <li><button id="logoutLink" class="shiny-button" style="display:none;">Logout</button></li>
       </ul>
     </nav>
   </header>
@@ -35,24 +35,32 @@
     </div>
   </section>
 
-  <section id="login" class="auth-form" style="display:none;">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="email" id="loginEmail" placeholder="Email" required>
-      <input type="password" id="loginPassword" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-  </section>
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeLoginModal">&times;</span>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit" class="shiny-button">Login</button>
+      </form>
+    </div>
+  </div>
 
-  <section id="register" class="auth-form" style="display:none;">
-    <h2>Register</h2>
-    <form id="registerForm">
-      <input type="text" id="registerName" placeholder="Name" required>
-      <input type="email" id="registerEmail" placeholder="Email" required>
-      <input type="password" id="registerPassword" placeholder="Password" required>
-      <button type="submit">Register</button>
-    </form>
-  </section>
+  <!-- Register Modal -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeRegisterModal">&times;</span>
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="registerName" placeholder="Name" required>
+        <input type="email" id="registerEmail" placeholder="Email" required>
+        <input type="password" id="registerPassword" placeholder="Password" required>
+        <button type="submit" class="shiny-button">Register</button>
+      </form>
+    </div>
+  </div>
 
   <footer>
     <p>&copy; 2023 ElectroShop. All rights reserved.</p>
