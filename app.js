@@ -9,67 +9,144 @@ const loginForm = document.getElementById('loginForm');
 const registerForm = document.getElementById('registerForm');
 const logoutLink = document.getElementById('logoutLink');
 
+// Modal Utility Functions
+function openModal(modal) {
+  modal.style.display = 'flex';
+}
+
+function closeModal(modal) {
+  modal.style.display = 'none';
+}
+
+function resetForm(form) {
+  form.reset();
+}
+
 // Open Login Modal
-openLoginModal.addEventListener('click', () => {
-  loginModal.style.display = 'flex';
+openLoginModal.addEventListener('click', (e) => {
+  e.preventDefault(); // Prevent default button behavior
+  openModal(loginModal);
 });
 
 // Open Register Modal
-openRegisterModal.addEventListener('click', () => {
-  registerModal.style.display = 'flex';
+openRegisterModal.addEventListener('click', (e) => {
+  e.preventDefault(); // Prevent default button behavior
+  openModal(registerModal);
 });
 
 // Close Login Modal
 closeLoginModal.addEventListener('click', () => {
-  loginModal.style.display = 'none';
+  closeModal(loginModal);
 });
 
 // Close Register Modal
 closeRegisterModal.addEventListener('click', () => {
-  registerModal.style.display = 'none';
+  closeModal(registerModal);
 });
 
 // Close Modals When Clicking Outside
 window.addEventListener('click', (e) => {
   if (e.target === loginModal) {
-    loginModal.style.display = 'none';
+    closeModal(loginModal);
   }
   if (e.target === registerModal) {
-    registerModal.style.display = 'none';
+    closeModal(registerModal);
   }
 });
 
 // Login Functionality
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
-  // Simulate login (replace with actual authentication logic)
-  alert(`Logged in as ${email}`);
-  loginModal.style.display = 'none';
-  logoutLink.style.display = 'block';
-  openLoginModal.style.display = 'none';
-  openRegisterModal.style.display = 'none';
+  
+  try {
+    // Replace with actual authentication logic
+    const response = await authenticateUser(email, password);
+    
+    if (response.success) {
+      // Update UI for logged-in state
+      logoutLink.style.display = 'block';
+      openLoginModal.style.display = 'none';
+      openRegisterModal.style.display = 'none';
+      
+      // Close login modal
+      closeModal(loginModal);
+      
+      // Optional: Show welcome message or redirect
+      alert(`Welcome, ${email}!`);
+    } else {
+      // Show error message
+      alert('Login failed. Please check your credentials.');
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    alert('An error occurred during login. Please try again.');
+  }
 });
 
 // Register Functionality
-registerForm.addEventListener('submit', (e) => {
+registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('registerName').value;
   const email = document.getElementById('registerEmail').value;
   const password = document.getElementById('registerPassword').value;
-  // Simulate registration (replace with actual registration logic)
-  alert(`Registered as ${name}`);
-  registerModal.style.display = 'none';
-  loginModal.style.display = 'flex';
+  
+  try {
+    // Replace with actual registration logic
+    const response = await registerUser(name, email, password);
+    
+    if (response.success) {
+      // Show success message and switch to login
+      alert('Registration successful! Please log in.');
+      closeModal(registerModal);
+      openModal(loginModal);
+      
+      // Optional: Pre-fill email in login form
+      document.getElementById('loginEmail').value = email;
+    } else {
+      // Show registration error
+      alert('Registration failed. Please try again.');
+    }
+  } catch (error) {
+    console.error('Registration error:', error);
+    alert('An error occurred during registration. Please try again.');
+  }
 });
 
 // Logout Functionality
 logoutLink.addEventListener('click', (e) => {
   e.preventDefault();
-  // Simulate logout
-  alert('Logged out');
+  
+  // Simulate logout (replace with actual logout logic)
   logoutLink.style.display = 'none';
   openLoginModal.style.display = 'block';
   openRegisterModal.style.display = 'block';
+  
+  alert('You have been logged out successfully.');
 });
+
+// Placeholder authentication functions (to be replaced with actual backend calls)
+async function authenticateUser(email, password) {
+  // Simulate API call
+  return new Promise((resolve) => {
+    // Simulated validation
+    if (email && password) {
+      resolve({ success: true });
+    } else {
+      resolve({ success: false });
+    }
+  });
+}
+
+async function registerUser(name, email, password) {
+  // Simulate API call
+  return new Promise((resolve) => {
+    // Simulated validation
+    if (name && email && password) {
+      resolve({ success: true });
+    } else {
+      resolve({ success: false });
+    }
+  });
+}
