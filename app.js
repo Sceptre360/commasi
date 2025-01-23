@@ -24,13 +24,13 @@ function resetForm(form) {
 
 // Open Login Modal
 openLoginModal.addEventListener('click', (e) => {
-  e.preventDefault(); // Prevent default button behavior
+  e.preventDefault();
   openModal(loginModal);
 });
 
 // Open Register Modal
 openRegisterModal.addEventListener('click', (e) => {
-  e.preventDefault(); // Prevent default button behavior
+  e.preventDefault();
   openModal(registerModal);
 });
 
@@ -59,24 +59,27 @@ loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
-  
+
   try {
-    // Replace with actual authentication logic
-    const response = await authenticateUser(email, password);
-    
-    if (response.success) {
+    const response = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+
+    if (data.success) {
       // Update UI for logged-in state
       logoutLink.style.display = 'block';
       openLoginModal.style.display = 'none';
       openRegisterModal.style.display = 'none';
-      
+
       // Close login modal
       closeModal(loginModal);
-      
-      // Optional: Show welcome message or redirect
+
+      // Show welcome message
       alert(`Welcome, ${email}!`);
     } else {
-      // Show error message
       alert('Login failed. Please check your credentials.');
     }
   } catch (error) {
@@ -91,21 +94,24 @@ registerForm.addEventListener('submit', async (e) => {
   const name = document.getElementById('registerName').value;
   const email = document.getElementById('registerEmail').value;
   const password = document.getElementById('registerPassword').value;
-  
+
   try {
-    // Replace with actual registration logic
-    const response = await registerUser(name, email, password);
-    
-    if (response.success) {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await response.json();
+
+    if (data.success) {
       // Show success message and switch to login
       alert('Registration successful! Please log in.');
       closeModal(registerModal);
       openModal(loginModal);
-      
-      // Optional: Pre-fill email in login form
+
+      // Pre-fill email in login form
       document.getElementById('loginEmail').value = email;
     } else {
-      // Show registration error
       alert('Registration failed. Please try again.');
     }
   } catch (error) {
@@ -117,36 +123,11 @@ registerForm.addEventListener('submit', async (e) => {
 // Logout Functionality
 logoutLink.addEventListener('click', (e) => {
   e.preventDefault();
-  
-  // Simulate logout (replace with actual logout logic)
+
+  // Simulate logout
   logoutLink.style.display = 'none';
   openLoginModal.style.display = 'block';
   openRegisterModal.style.display = 'block';
-  
+
   alert('You have been logged out successfully.');
 });
-
-// Placeholder authentication functions (to be replaced with actual backend calls)
-async function authenticateUser(email, password) {
-  // Simulate API call
-  return new Promise((resolve) => {
-    // Simulated validation
-    if (email && password) {
-      resolve({ success: true });
-    } else {
-      resolve({ success: false });
-    }
-  });
-}
-
-async function registerUser(name, email, password) {
-  // Simulate API call
-  return new Promise((resolve) => {
-    // Simulated validation
-    if (name && email && password) {
-      resolve({ success: true });
-    } else {
-      resolve({ success: false });
-    }
-  });
-}
