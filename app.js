@@ -1,133 +1,153 @@
-// DOM Elements
-const openLoginModal = document.getElementById('openLoginModal');
-const openRegisterModal = document.getElementById('openRegisterModal');
-const closeLoginModal = document.getElementById('closeLoginModal');
-const closeRegisterModal = document.getElementById('closeRegisterModal');
-const loginModal = document.getElementById('loginModal');
-const registerModal = document.getElementById('registerModal');
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-const logoutLink = document.getElementById('logoutLink');
+document.addEventListener('DOMContentLoaded', () => {
+  // DOM Elements
+  const userMenuButton = document.getElementById('userMenuButton');
+  const authDropdown = document.getElementById('authDropdown');
+  const openLoginModal = document.getElementById('openLoginModal');
+  const openRegisterModal = document.getElementById('openRegisterModal');
+  const loginModal = document.getElementById('loginModal');
+  const registerModal = document.getElementById('registerModal');
+  const closeModals = document.querySelectorAll('.close-modal');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const logoutLink = document.getElementById('logoutLink');
+  const switchToSignup = document.getElementById('switchToSignup');
+  const switchToLogin = document.getElementById('switchToLogin');
 
-// Modal Utility Functions
-function openModal(modal) {
-  modal.style.display = 'flex';
-}
+  // Modal Utility Functions
+  function openModal(modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
 
-function closeModal(modal) {
-  modal.style.display = 'none';
-}
+  function closeModal(modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    resetForm(modal.querySelector('form'));
+  }
 
-function resetForm(form) {
-  form.reset();
-}
+  function resetForm(form) {
+    form.reset();
+    form.querySelectorAll('.input-group label').forEach(label => {
+      label.style.top = '50%';
+      label.style.fontSize = '1rem';
+      label.style.background = 'transparent';
+    });
+  }
 
-// Open Login Modal
-openLoginModal.addEventListener('click', (e) => {
-  e.preventDefault();
-  openModal(loginModal);
-});
+  // User Menu Dropdown
+  userMenuButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    authDropdown.classList.toggle('show');
+  });
 
-// Open Register Modal
-openRegisterModal.addEventListener('click', (e) => {
-  e.preventDefault();
-  openModal(registerModal);
-});
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-menu')) {
+      authDropdown.classList.remove('show');
+    }
+  });
 
-// Close Login Modal
-closeLoginModal.addEventListener('click', () => {
-  closeModal(loginModal);
-});
+  // Modal Handling
+  openLoginModal.addEventListener('click', () => {
+    openModal(loginModal);
+    authDropdown.classList.remove('show');
+  });
 
-// Close Register Modal
-closeRegisterModal.addEventListener('click', () => {
-  closeModal(registerModal);
-});
+  openRegisterModal.addEventListener('click', () => {
+    openModal(registerModal);
+    authDropdown.classList.remove('show');
+  });
 
-// Close Modals When Clicking Outside
-window.addEventListener('click', (e) => {
-  if (e.target === loginModal) {
+  // Modal Switching
+  switchToSignup.addEventListener('click', (e) => {
+    e.preventDefault();
     closeModal(loginModal);
-  }
-  if (e.target === registerModal) {
+    openModal(registerModal);
+  });
+
+  switchToLogin.addEventListener('click', (e) => {
+    e.preventDefault();
     closeModal(registerModal);
-  }
-});
+    openModal(loginModal);
+  });
 
-// Login Functionality
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-
-  try {
-    const response = await fetch('/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-
-    if (data.success) {
-      // Update UI for logged-in state
-      logoutLink.style.display = 'block';
-      openLoginModal.style.display = 'none';
-      openRegisterModal.style.display = 'none';
-
-      // Close login modal
+  // Close Modals
+  closeModals.forEach(btn => {
+    btn.addEventListener('click', () => {
       closeModal(loginModal);
-
-      // Show welcome message
-      alert(`Welcome, ${email}!`);
-    } else {
-      alert('Login failed. Please check your credentials.');
-    }
-  } catch (error) {
-    console.error('Login error:', error);
-    alert('An error occurred during login. Please try again.');
-  }
-});
-
-// Register Functionality
-registerForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = document.getElementById('registerName').value;
-  const email = document.getElementById('registerEmail').value;
-  const password = document.getElementById('registerPassword').value;
-
-  try {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    });
-    const data = await response.json();
-
-    if (data.success) {
-      // Show success message and switch to login
-      alert('Registration successful! Please log in.');
       closeModal(registerModal);
-      openModal(loginModal);
+    });
+  });
 
-      // Pre-fill email in login form
-      document.getElementById('loginEmail').value = email;
-    } else {
-      alert('Registration failed. Please try again.');
+  window.addEventListener('click', (e) => {
+    if (e.target === loginModal || e.target === registerModal) {
+      closeModal(loginModal);
+      closeModal(registerModal);
     }
-  } catch (error) {
-    console.error('Registration error:', error);
-    alert('An error occurred during registration. Please try again.');
-  }
-});
+  });
 
-// Logout Functionality
-logoutLink.addEventListener('click', (e) => {
-  e.preventDefault();
+  // Login Functionality
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
 
-  // Simulate logout
-  logoutLink.style.display = 'none';
-  openLoginModal.style.display = 'block';
-  openRegisterModal.style.display = 'block';
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
 
-  alert('You have been logged out successfully.');
+      if (data.success) {
+        // Update UI for logged-in state
+        logoutLink.style.display = 'block';
+        userMenuButton.style.display = 'none';
+        closeModal(loginModal);
+        alert(`Welcome, ${email}!`);
+      } else {
+        alert('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('An error occurred during login. Please try again.');
+    }
+  });
+
+  // Register Functionality
+  registerForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+
+    try {
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        alert('Registration successful! Please log in.');
+        closeModal(registerModal);
+        openModal(loginModal);
+        document.getElementById('loginEmail').value = email;
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('An error occurred during registration. Please try again.');
+    }
+  });
+
+  // Logout Functionality
+  logoutLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    logoutLink.style.display = 'none';
+    userMenuButton.style.display = 'block';
+    alert('You have been logged out successfully.');
+  });
 });
