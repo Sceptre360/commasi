@@ -4,16 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ElectroShop</title>
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <!-- Fixed Top Navigation Bar -->
   <header>
     <nav>
       <h1>ElectroShop</h1>
       <div class="nav-links">
         <a href="#home">Home</a>
-        <a href="#categories">Categories</a>
+        <div class="dropdown">
+          <button class="dropbtn">Categories <i class="fas fa-caret-down"></i></button>
+          <div class="dropdown-content">
+            <a href="#smartphones">Smartphones</a>
+            <a href="#laptops">Laptops</a>
+            <a href="#cameras">Cameras</a>
+            <a href="#accessories">Accessories</a>
+          </div>
+        </div>
         <div class="user-menu">
           <button class="user-icon" id="userMenuButton">
             <i class="fas fa-user"></i>
@@ -28,20 +37,37 @@
     </nav>
   </header>
 
-  <section id="home">
-    <h2>Welcome to ElectroShop</h2>
-    <p>Your one-stop shop for the latest electronics!</p>
-  </section>
+  <!-- Main Content -->
+  <main>
+    <section id="home">
+      <h2>Welcome to ElectroShop</h2>
+      <p>Your one-stop shop for the latest electronics!</p>
+    </section>
 
-  <section id="categories">
-    <h2>Categories</h2>
-    <div class="category-grid">
-      <div class="category-item">Smartphones</div>
-      <div class="category-item">Laptops</div>
-      <div class="category-item">Cameras</div>
-      <div class="category-item">Accessories</div>
-    </div>
-  </section>
+
+    <!-- Category Pages -->
+    <section id="smartphones" class="category-page">
+      <h2>Smartphones</h2>
+      <p>Discover the latest smartphones from top brands.</p>
+    </section>
+    <section id="laptops" class="category-page">
+      <h2>Laptops</h2>
+      <p>Explore high-performance laptops for work and play.</p>
+    </section>
+    <section id="cameras" class="category-page">
+      <h2>Cameras</h2>
+      <p>Find the perfect camera for your photography needs.</p>
+    </section>
+    <section id="accessories" class="category-page">
+      <h2>Accessories</h2>
+      <p>Enhance your devices with our premium accessories.</p>
+    </section>
+  </main>
+
+  <!-- Fixed Footer -->
+  <footer>
+    <p>&copy; 2023 ElectroShop. All rights reserved.</p>
+  </footer>
 
   <!-- Login Modal -->
   <div id="loginModal" class="modal">
@@ -90,10 +116,6 @@
       </form>
     </div>
   </div>
-
-  <footer>
-    <p>&copy; 2023 ElectroShop. All rights reserved.</p>
-  </footer>
 
   <script src="app.js"></script>
 </body>

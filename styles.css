@@ -1,15 +1,24 @@
-
+/* General Styles */
 body {
   font-family: 'Segoe UI', system-ui, sans-serif;
   margin: 0;
   padding: 0;
   background: #f8f9fa;
+  padding-top: 60px; /* Space for fixed header */
+  padding-bottom: 60px; /* Space for fixed footer */
 }
 
+/* Fixed Header */
 header {
-  background: #fff;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #87CEEB; /* Sky blue */
+  color: #fff;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 nav {
@@ -23,9 +32,51 @@ nav {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  display: block;
+  transition: background 0.2s;
+}
+
+.dropdown-content a:hover {
+  background: #f8f9fa;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* User Menu */
 .user-menu {
   position: relative;
 }
@@ -34,7 +85,7 @@ nav {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #333;
+  color: #fff;
   cursor: pointer;
   transition: transform 0.2s;
   padding: 0.5rem;
@@ -50,7 +101,7 @@ nav {
   top: 100%;
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   min-width: 150px;
   display: none;
@@ -75,6 +126,54 @@ nav {
 .auth-dropdown button:hover {
   background: #f8f9fa;
 }
+
+/* Main Content */
+main {
+  padding: 2rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.category-item {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.category-item:hover {
+  transform: translateY(-5px);
+}
+
+.category-page {
+  padding: 2rem;
+  margin-top: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Fixed Footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #87CEEB; /* Sky blue */
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+/* Modals and Forms (Same as before) */
 
 .modal {
   display: none;
